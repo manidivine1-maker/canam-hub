@@ -78,7 +78,7 @@ function PasswordGate({onUnlock}:{onUnlock:()=>void}){
 
 function Modal({modal,onClose,onSave}:{modal:{type:string;mode:string;data?:unknown};onClose:()=>void;onSave:(d:unknown)=>void}){
   const isV=modal.type==="vehicle",isR=modal.type==="rental",isT=modal.type==="testimonial";
-  const VB:Vehicle={id:0,brand:"Can-Am",name:"",year:2024,type:"sxs",badge:"new",engine:"",hp:0,seats:2,specs:[],price:0,monthly:null,emoji:"🏎️",color:"",featured:false,image:"",images:[],description:""};
+  const VB:Vehicle={id:0,brand:"Can-Am",name:"New Vehicle",year:2024,type:"sxs",badge:"new",engine:"976cc V-Twin",hp:100,seats:2,specs:["100 HP","2-Seat"],price:10000,monthly:null,emoji:"🏎️",color:"Black",featured:false,image:"",images:[],description:"Vehicle description"};
   const RB:Rental={id:0,name:"",emoji:"🏍️",popular:false,tagline:"",description:"",halfDay:0,fullDay:0,weekend:0,deposit:300,features:[],gear:[],image:""};
   const TB:Testimonial={id:0,name:"",initials:"",location:"",role:"Verified Buyer",vehicle:"",rating:5,text:""};
   const [form,setForm]=useState<unknown>(modal.data??(isV?VB:isR?RB:TB));
@@ -86,14 +86,20 @@ function Modal({modal,onClose,onSave}:{modal:{type:string;mode:string;data?:unkn
   const sv=(k:keyof Vehicle,val:unknown)=>setForm((p:unknown)=>({...(p as Vehicle),[k]:val}));
   const sr=(k:keyof Rental,val:unknown)=>setForm((p:unknown)=>({...(p as Rental),[k]:val}));
   const st=(k:keyof Testimonial,val:unknown)=>setForm((p:unknown)=>({...(p as Testimonial),[k]:val}));
+
+  const handleSave=()=>{
+    console.log("Saving form:",form);
+    onSave(form);
+  };
+
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/80 backdrop-blur-sm overflow-y-auto py-8 px-4">
-      <div className="bg-[#0c0e14] border border-[#1e2333] w-full max-w-2xl">
+      <div className="bg-[#0c0e14] border border-[#1e2333] w-full max-w-2xl my-auto">
         <div className="flex items-center justify-between px-6 py-4 border-b border-[#1e2333]">
           <h3 className="font-playfair text-xl font-bold text-white">{modal.mode==="add"?"Add":"Edit"} {isV?"Vehicle":isR?"Rental":"Review"}</h3>
           <button onClick={onClose} className="text-[#6b7694] hover:text-white"><X size={20}/></button>
         </div>
-        <div className="p-6 flex flex-col gap-4 max-h-[80vh] overflow-y-auto">
+        <div className="p-6 flex flex-col gap-4 overflow-y-auto" style={{maxHeight:"65vh"}}>
           {isV&&(<>
             <div className="grid grid-cols-2 gap-4">
               <div><label className="label">Brand</label><input className="input" value={v.brand} onChange={e=>sv("brand",e.target.value)}/></div>
@@ -167,9 +173,9 @@ function Modal({modal,onClose,onSave}:{modal:{type:string;mode:string;data?:unkn
             <div><label className="label">Review Text *</label><textarea className="input resize-none" rows={4} value={t.text} onChange={e=>st("text",e.target.value)}/></div>
           </>)}
         </div>
-        <div className="flex items-center justify-end gap-3 px-6 py-4 border-t border-[#1e2333]">
-          <button onClick={onClose} className="btn-outline py-2.5 px-6">Cancel</button>
-          <button onClick={()=>onSave(form)} className="btn-gold py-2.5 px-6"><Save size={15}/>{modal.mode==="add"?"Add":"Save Changes"}</button>
+        <div className="flex items-center justify-end gap-3 px-6 py-4 border-t border-[#1e2333] bg-[#0c0e14]">
+          <button type="button" onClick={onClose} className="btn-outline py-2.5 px-6">Cancel</button>
+          <button type="button" onClick={handleSave} className="btn-gold py-2.5 px-6"><Save size={15}/>{modal.mode==="add"?"Add":"Save Changes"}</button>
         </div>
       </div>
     </div>
