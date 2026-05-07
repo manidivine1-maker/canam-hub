@@ -1,6 +1,6 @@
 ﻿"use client";
 import { useState } from "react";
-import { Phone, Mail, MapPin, Clock, MessageSquare, Check } from "lucide-react";
+import { Mail, MapPin, Clock, MessageSquare, Check } from "lucide-react";
 import SectionHeader from "../../components/SectionHeader";
 import CtaStrip from "../../components/CtaStrip";
 interface F {firstName:string;lastName:string;email:string;phone:string;inquiry:string;vehicle:string;message:string;}
@@ -25,9 +25,9 @@ export default function ContactPage() {
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-14">
             <div className="flex flex-col gap-4">
               {[
-                {icon:<MapPin size={20}/>,label:"Visit Us",content:<div><p className="text-[#9ba4be] text-sm">123 Off-Road Way</p><p className="text-[#9ba4be] text-sm">Centre, CM 12345</p></div>},
-                {icon:<Phone size={20}/>,label:"Call or WhatsApp",content:<div><a href="tel:5551234567" className="font-playfair text-[18px] font-bold text-white hover:text-[#f97316] transition-colors">(555) 123-4567</a><div className="mt-1"><a href="https://wa.me/15551234567" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm text-[#f97316] font-cond"><MessageSquare size={13}/>WhatsApp Us</a></div></div>},
-                {icon:<Mail size={20}/>,label:"Email Us",content:<div><a href="mailto:info@canamoffroadhub.com" className="text-[#9ba4be] text-sm hover:text-[#f97316] transition-colors">info@canamoffroadhub.com</a><p className="text-[#6b7694] text-xs mt-1">Response within 2-4 hours</p></div>},
+                {icon:<MapPin size={20}/>,label:"Location",content:<div><p className="text-[#9ba4be] text-sm font-bold">United States</p><p className="text-[#9ba4be] text-xs mt-1">Nationwide Delivery Available</p></div>},
+                {icon:<MessageSquare size={20}/>,label:"WhatsApp Us",content:<div><a href="https://wa.me/15039134945" target="_blank" rel="noopener noreferrer" className="font-playfair text-[18px] font-bold text-white hover:text-[#f97316] transition-colors">(503) 913-4945</a><div className="mt-2"><a href="https://wa.me/15039134945" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-sm text-[#f97316] font-cond hover:underline"><MessageSquare size={13}/>Message on WhatsApp</a></div><p className="text-[#6b7694] text-xs mt-1">Fastest way to reach us</p></div>},
+                {icon:<Mail size={20}/>,label:"Email Us",content:<div><a href="mailto:canam.offroadhub@gmail.com" className="text-[#9ba4be] text-sm hover:text-[#f97316] transition-colors">canam.offroadhub@gmail.com</a><p className="text-[#6b7694] text-xs mt-1">Response within 2-4 hours</p></div>},
                 {icon:<Clock size={20}/>,label:"Business Hours",content:<div className="flex flex-col divide-y divide-[#1e2333]">{[{day:"Mon-Fri",time:"9AM-6PM",open:true},{day:"Saturday",time:"9AM-4PM",open:true},{day:"Sunday",time:"Closed",open:false}].map(({day,time,open})=><div key={day} className="flex justify-between text-sm gap-6 py-1.5"><span className="text-[#9ba4be]">{day}</span><span className={open?"text-green-400":"text-red-400"}>{time}</span></div>)}</div>},
               ].map(item=>(
                 <div key={item.label} className="flex items-start gap-4 p-5 bg-[#181c28] border border-[#1e2333] hover:border-[#f97316]/30 transition-colors">
@@ -35,11 +35,6 @@ export default function ContactPage() {
                   <div><div className="font-cond text-[11px] tracking-[0.2em] uppercase text-[#f97316] mb-2">{item.label}</div>{item.content}</div>
                 </div>
               ))}
-              <div className="bg-[#12151e] border border-[#1e2333] h-44 flex flex-col items-center justify-center gap-2 text-[#6b7694] mt-2">
-                <span className="text-[32px]">ðŸ—ºï¸</span>
-                <span className="font-cond text-[11px] tracking-[0.12em] uppercase">123 Off-Road Way, Centre, CM</span>
-                <span className="text-xs opacity-60">Replace with Google Maps embed</span>
-              </div>
             </div>
             <div>
               {submitted ? (
@@ -63,7 +58,7 @@ export default function ContactPage() {
                       ))}
                     </div>
                     <div><label className="label">Email *</label><input type="email" value={form.email} onChange={e=>upd("email",e.target.value)} placeholder="john@example.com" className={`input ${errors.email?"border-red-500":""}`}/>{errors.email&&<p className="text-red-400 text-xs mt-1">{errors.email}</p>}</div>
-                    <div><label className="label">Phone / WhatsApp</label><input type="tel" value={form.phone} onChange={e=>upd("phone",e.target.value)} placeholder="(555) 000-0000" className="input"/></div>
+                    <div><label className="label">WhatsApp Number</label><input type="tel" value={form.phone} onChange={e=>upd("phone",e.target.value)} placeholder="(503) 913-4945" className="input"/></div>
                     <div><label className="label">Inquiry Type</label><select value={form.inquiry} onChange={e=>upd("inquiry",e.target.value)} className="input"><option>Select inquiry type</option><option>Purchasing a Vehicle</option><option>Renting a Vehicle</option><option>Schedule a Test Ride</option><option>Financing</option><option>Service and Repairs</option><option>General Question</option></select></div>
                     <div><label className="label">Vehicle of Interest</label><input value={form.vehicle} onChange={e=>upd("vehicle",e.target.value)} placeholder="e.g. Maverick X3 Turbo RR..." className="input"/></div>
                     <div><label className="label">Your Message *</label><textarea value={form.message} onChange={e=>upd("message",e.target.value)} rows={4} placeholder="Tell us about your riding experience, budget, or any questions..." className={`input resize-none ${errors.message?"border-red-500":""}`}/>{errors.message&&<p className="text-red-400 text-xs mt-1">{errors.message}</p>}</div>
@@ -77,7 +72,7 @@ export default function ContactPage() {
           </div>
         </div>
       </section>
-      <CtaStrip title="Ready to Start Your Adventure?" subtitle="We are here Monday through Saturday." actions={[{label:"Call Now",href:"tel:5551234567",primary:true},{label:"Browse Inventory",href:"/inventory",primary:false}]}/>
+      <CtaStrip title="Ready to Start Your Adventure?" subtitle="We are here Monday through Saturday." actions={[{label:"WhatsApp Us",href:"https://wa.me/15039134945",primary:true},{label:"Browse Inventory",href:"/inventory",primary:false}]}/>
     </>
   );
 }
