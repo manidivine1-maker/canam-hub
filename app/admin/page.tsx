@@ -4,7 +4,7 @@ import { Plus, Pencil, Trash2, Save, X, Upload, Car, CalendarDays, MessageSquare
 
 const ADMIN_PASSWORD = "canam2024";
 
-interface Vehicle { id:number; brand:string; name:string; year:number; type:string; badge:string; engine:string; hp:number; seats:number; specs:string[]; price:number; monthly:number|null; emoji:string; color:string; featured:boolean; image:string; description:string; }
+interface Vehicle { id:number; brand:string; name:string; year:number; type:string; badge:string; engine:string; hp:number; seats:number; specs:string[]; price:number; monthly:number|null; emoji:string; color:string; featured:boolean; image:string; images:string[]; description:string; }
 interface Rental { id:number; name:string; emoji:string; popular:boolean; tagline:string; description:string; halfDay:number; fullDay:number; weekend:number; deposit:number; features:string[]; gear:string[]; image:string; }
 interface Testimonial { id:number; name:string; initials:string; location:string; role:string; vehicle:string; rating:number; text:string; }
 interface SiteInfo { name:string; tagline:string; phone:string; phoneRaw:string; email:string; address:string; mapUrl:string; instagram:string; facebook:string; hours:{day:string;time:string;open:boolean}[]; }
@@ -24,7 +24,7 @@ function ImageUpload({value,onChange,folder}:{value:string;onChange:(p:string)=>
   };
   return (
     <div>
-      <label className="label">Photo</label>
+      <label className="label">Main Photo</label>
       <div className="flex gap-3 items-center">
         {value&&<img src={value} alt="" className="w-20 h-14 object-cover border border-[#1e2333]"/>}
         <button type="button" onClick={()=>ref.current?.click()} className="btn-outline text-[12px] py-2" disabled={busy}><Upload size={14}/>{busy?"Uploading...":value?"Change Photo":"Upload Photo"}</button>
@@ -32,6 +32,26 @@ function ImageUpload({value,onChange,folder}:{value:string;onChange:(p:string)=>
         <input ref={ref} type="file" accept="image/*" className="hidden" onChange={upload}/>
       </div>
       {value&&<p className="text-[#6b7694] text-xs mt-1">{value}</p>}
+    </div>
+  );
+}
+
+function MultiImageUpload({onUpload,folder}:{onUpload:(p:string)=>void;folder:string}){
+  const ref=useRef<HTMLInputElement>(null);
+  const [busy,setBusy]=useState(false);
+  const upload=async(e:React.ChangeEvent<HTMLInputElement>)=>{
+    const file=e.target.files?.[0];if(!file)return;
+    setBusy(true);const fd=new FormData();fd.append("file",file);fd.append("folder",folder);
+    const res=await fetch("/api/upload",{method:"POST",body:fd});const data=await res.json();
+    if(data.ok)onUpload(data.path);setBusy(false);
+    if(ref.current)ref.current.value="";
+  };
+  return (
+    <div>
+      <button type="button" onClick={()=>ref.current?.click()} className="btn-outline text-[12px] py-2" disabled={busy}>
+        <Upload size={14}/>{busy?"Uploading...":"Add Another Photo"}
+      </button>
+      <input ref={ref} type="file" accept="image/*" className="hidden" onChange={upload}/>
     </div>
   );
 }
@@ -58,7 +78,7 @@ function PasswordGate({onUnlock}:{onUnlock:()=>void}){
 
 function Modal({modal,onClose,onSave}:{modal:{type:string;mode:string;data?:unknown};onClose:()=>void;onSave:(d:unknown)=>void}){
   const isV=modal.type==="vehicle",isR=modal.type==="rental",isT=modal.type==="testimonial";
-  const VB:Vehicle={id:0,brand:"Can-Am",name:"",year:2024,type:"sxs",badge:"new",engine:"",hp:0,seats:2,specs:[],price:0,monthly:null,emoji:"🏎️",color:"",featured:false,image:"",description:""};
+  const VB:Vehicle={id:0,brand:"Can-Am",name:"",year:2024,type:"sxs",badge:"new",engine:"",hp:0,seats:2,specs:[],price:0,monthly:null,emoji:"🏎️",color:"",featured:false,image:"",images:[],description:""};
   const RB:Rental={id:0,name:"",emoji:"🏍️",popular:false,tagline:"",description:"",halfDay:0,fullDay:0,weekend:0,deposit:300,features:[],gear:[],image:""};
   const TB:Testimonial={id:0,name:"",initials:"",location:"",role:"Verified Buyer",vehicle:"",rating:5,text:""};
   const [form,setForm]=useState<unknown>(modal.data??(isV?VB:isR?RB:TB));
@@ -101,6 +121,19 @@ function Modal({modal,onClose,onSave}:{modal:{type:string;mode:string;data?:unkn
             <div><label className="label">Description</label><textarea className="input resize-none" rows={2} value={v.description} onChange={e=>sv("description",e.target.value)}/></div>
             <label className="flex items-center gap-2 cursor-pointer"><input type="checkbox" checked={v.featured} onChange={e=>sv("featured",e.target.checked)} className="accent-[#f97316] w-4 h-4"/><span className="font-cond text-[12px] uppercase tracking-wide text-[#9ba4be]">Show on Homepage</span></label>
             <ImageUpload value={v.image} onChange={val=>sv("image",val)} folder="vehicles"/>
+            <div>
+              <label className="label">Additional Photos</label>
+              <div className="flex flex-col gap-2">
+                {(v.images||[]).map((img:string,i:number)=>(
+                  <div key={i} className="flex items-center gap-2">
+                    <img src={img} alt="" className="w-16 h-10 object-cover border border-[#1e2333]"/>
+                    <span className="text-[#6b7694] text-xs flex-1 truncate">{img}</span>
+                    <button type="button" onClick={()=>sv("images",(v.images||[]).filter((_:string,j:number)=>j!==i))} className="text-red-400 hover:text-red-300"><X size={14}/></button>
+                  </div>
+                ))}
+                <MultiImageUpload onUpload={(path:string)=>sv("images",[...(v.images||[]),path])} folder="vehicles"/>
+              </div>
+            </div>
           </>)}
           {isR&&(<>
             <div className="grid grid-cols-2 gap-4">
@@ -157,11 +190,11 @@ function SiteEditor({data,onChange,onSave}:{data:SiteInfo;onChange:(d:SiteInfo)=
           <div className="flex flex-col gap-4">
             <div><label className="label">Business Name</label><input className="input" value={data.name} onChange={e=>set("name",e.target.value)}/></div>
             <div><label className="label">Tagline</label><input className="input" value={data.tagline} onChange={e=>set("tagline",e.target.value)}/></div>
-            <div><label className="label">Phone (displayed)</label><input className="input" value={data.phone} onChange={e=>set("phone",e.target.value)}/></div>
-            <div><label className="label">Phone Raw (no spaces)</label><input className="input" value={data.phoneRaw} onChange={e=>set("phoneRaw",e.target.value)}/></div>
+            <div><label className="label">WhatsApp (displayed)</label><input className="input" value={data.phone} onChange={e=>set("phone",e.target.value)} placeholder="(503) 913-4945"/></div>
+            <div><label className="label">WhatsApp Raw (no spaces)</label><input className="input" value={data.phoneRaw} onChange={e=>set("phoneRaw",e.target.value)} placeholder="15039134945"/></div>
             <div><label className="label">Email</label><input className="input" type="email" value={data.email} onChange={e=>set("email",e.target.value)}/></div>
-            <div><label className="label">Full Address</label><input className="input" value={data.address} onChange={e=>set("address",e.target.value)}/></div>
-            <div><label className="label">Google Maps Embed URL</label><input className="input" value={data.mapUrl} onChange={e=>set("mapUrl",e.target.value)} placeholder="https://www.google.com/maps/embed?pb=..."/><p className="text-[#6b7694] text-xs mt-1">Google Maps - Share - Embed a map - copy the src URL</p></div>
+            <div><label className="label">Location</label><input className="input" value={data.address} onChange={e=>set("address",e.target.value)} placeholder="United States"/></div>
+            <div><label className="label">Google Maps Embed URL</label><input className="input" value={data.mapUrl} onChange={e=>set("mapUrl",e.target.value)}/></div>
           </div>
         </div>
         <div className="flex flex-col gap-5">
@@ -243,16 +276,22 @@ export default function AdminPage() {
               {vehicles.length===0&&<div className="text-center py-16 text-[#6b7694]"><Car size={40} className="mx-auto mb-3 opacity-30"/><p>No vehicles yet. Click Add Vehicle to get started.</p></div>}
               {vehicles.map(v=>(
                 <div key={v.id} className="bg-[#0c0e14] border border-[#1e2333] p-4 flex items-center gap-4 hover:border-[#f97316]/30 transition-colors">
-                  <div className="w-16 h-12 bg-[#12151e] flex items-center justify-center shrink-0 overflow-hidden">{v.image?<img src={v.image} alt={v.name} className="w-full h-full object-cover"/>:<span className="text-2xl">{v.emoji}</span>}</div>
+                  <div className="w-16 h-12 bg-[#12151e] flex items-center justify-center shrink-0 overflow-hidden">
+                    {v.image?<img src={v.image} alt={v.name} className="w-full h-full object-cover"/>:<span className="text-2xl">{v.emoji}</span>}
+                  </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
                       <span className="font-playfair font-bold text-white text-[15px]">{v.name}</span>
                       {v.badge&&<span className={`font-cond text-[9px] font-bold tracking-[0.1em] uppercase px-2 py-0.5 ${v.badge==="hot"?"bg-red-600 text-white":v.badge==="new"?"bg-[#f97316] text-white":"bg-emerald-700 text-white"}`}>{v.badge}</span>}
                       {v.featured&&<span className="font-cond text-[9px] font-bold uppercase px-2 py-0.5 bg-blue-700 text-white">Featured</span>}
+                      {v.images&&v.images.length>0&&<span className="font-cond text-[9px] uppercase px-2 py-0.5 bg-[#1e2333] text-[#9ba4be]">{v.images.length+1} photos</span>}
                     </div>
                     <div className="font-cond text-[11px] text-[#6b7694] mt-0.5">{v.year} - {v.type} - {v.engine}</div>
                   </div>
-                  <div className="text-right shrink-0"><div className="font-playfair font-bold text-[#f97316] text-[17px]">${v.price.toLocaleString()}</div>{v.monthly&&<div className="text-[#6b7694] text-xs">${v.monthly}/mo</div>}</div>
+                  <div className="text-right shrink-0">
+                    <div className="font-playfair font-bold text-[#f97316] text-[17px]">${v.price.toLocaleString()}</div>
+                    {v.monthly&&<div className="text-[#6b7694] text-xs">${v.monthly}/mo</div>}
+                  </div>
                   <div className="flex gap-2 shrink-0">
                     <button onClick={()=>setModal({type:"vehicle",mode:"edit",data:v})} className="w-8 h-8 bg-[#1e2333] hover:bg-[#252b3d] text-[#9ba4be] hover:text-white flex items-center justify-center transition-colors"><Pencil size={14}/></button>
                     <button onClick={async()=>{if(!confirm(`Delete "${v.name}"?`))return;await fetch("/api/vehicles",{method:"DELETE",headers:{"Content-Type":"application/json"},body:JSON.stringify({id:v.id})});setVehicles(p=>p.filter(x=>x.id!==v.id));showToast("Deleted.");}} className="w-8 h-8 bg-[#1e2333] hover:bg-red-900/40 text-[#6b7694] hover:text-red-400 flex items-center justify-center transition-colors"><Trash2 size={14}/></button>
