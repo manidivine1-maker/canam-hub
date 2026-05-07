@@ -1,26 +1,29 @@
-@import "tailwindcss";
-
+﻿@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@500;600;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --gold:#f97316; --gold-lt:#fb923c; --gold-dk:#ea580c;
+  --bg:#060709; --bg2:#0c0e14; --bg3:#12151e; --card:#181c28;
+  --border:#1e2333; --border2:#252b3d; --text:#edf0f5; --muted:#6b7694; --muted2:#9ba4be;
 }
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:"Barlow",system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--bg2)}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}::-webkit-scrollbar-thumb:hover{background:var(--gold)}
+::selection{background:rgba(249,115,22,0.35);color:#fff}
+.font-playfair{font-family:"Playfair Display",Georgia,serif}
+.font-cond{font-family:"Barlow Condensed",system-ui,sans-serif}
+.section-pad{padding:88px 5%}.section-pad-sm{padding:56px 5%}
+.card-lift{transition:transform .3s ease,border-color .3s ease,box-shadow .3s ease}
+.card-lift:hover{transform:translateY(-5px);border-color:rgba(249,115,22,0.5)!important;box-shadow:0 20px 60px rgba(249,115,22,0.07)}
+.grid-bg{background-image:linear-gradient(rgba(30,35,51,0.45) 1px,transparent 1px),linear-gradient(90deg,rgba(30,35,51,0.45) 1px,transparent 1px);background-size:72px 72px}
+.input{background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:12px 15px;font-family:"Barlow",system-ui,sans-serif;font-size:14px;outline:none;width:100%;transition:border-color .2s;border-radius:0}
+.input:focus{border-color:var(--gold)}.input::placeholder{color:var(--muted)}.input option{background:var(--bg3)}
+.label{font-family:"Barlow Condensed",system-ui,sans-serif;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:6px}
+.btn-gold{background:var(--gold);color:#fff;border:none;font-family:"Barlow Condensed",system-ui,sans-serif;font-size:13px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;padding:13px 32px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:background .2s,transform .2s}
+.btn-gold:hover{background:var(--gold-dk);transform:translateY(-2px)}
+.btn-outline{background:transparent;color:var(--text);border:1px solid var(--border2);font-family:"Barlow Condensed",system-ui,sans-serif;font-size:13px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;padding:13px 32px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:border-color .2s,color .2s}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold)}
+.btn-red{background:#dc2626;color:#fff;border:none;font-family:"Barlow Condensed",system-ui,sans-serif;font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:8px 16px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:background .2s}
+.btn-red:hover{background:#b91c1c}

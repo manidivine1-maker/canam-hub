@@ -1,0 +1,13 @@
+﻿export type VehicleType = "sxs"|"atv"|"utility"|"used";
+export type VehicleBadge = "hot"|"new"|"cpo"|null;
+export interface Vehicle { id:number;brand:string;name:string;year:number;type:VehicleType;badge:VehicleBadge;engine:string;hp:number;seats:number;specs:string[];price:number;monthly:number|null;emoji:string;color:string;featured:boolean;image:string;description:string; }
+export const vehicles:Vehicle[] = [
+  {id:1,brand:"Can-Am",name:"Maverick X3 Turbo RR",year:2024,type:"sxs",badge:"hot",engine:"900cc Turbo RR",hp:195,seats:4,specs:["195 HP","4-Seat","AWD","Smart-Lok"],price:32999,monthly:459,emoji:"ðŸŽï¸",color:"Carbon Black",featured:true,image:"",description:"The ultimate performance SxS."},
+  {id:2,brand:"Can-Am",name:"Maverick Trail DPS",year:2024,type:"sxs",badge:"new",engine:"976cc V-Twin",hp:100,seats:2,specs:["100 HP","2-Seat","50 Wide"],price:16799,monthly:234,emoji:"ðŸŽï¸",color:"Manta Green",featured:true,image:"",description:"Perfectly sized for tight trails."},
+  {id:3,brand:"Can-Am",name:"Defender HD10",year:2024,type:"utility",badge:"new",engine:"976cc V-Twin",hp:82,seats:3,specs:["82 HP","3-Seat","4x4","2500lb Tow"],price:19499,monthly:272,emoji:"ðŸšœ",color:"Tundra",featured:true,image:"",description:"Built to work as hard as you do."},
+  {id:4,brand:"Can-Am",name:"Defender Max XT",year:2024,type:"utility",badge:"new",engine:"976cc V-Twin",hp:82,seats:6,specs:["82 HP","6-Seat","4x4","LinQ Cargo"],price:24999,monthly:348,emoji:"ðŸš›",color:"Desert Tan",featured:false,image:"",description:"Six seats and massive cargo."},
+  {id:5,brand:"Can-Am",name:"Outlander 700",year:2024,type:"atv",badge:"new",engine:"650cc V-Twin",hp:64,seats:1,specs:["64 HP","Solo","4x4","DPS"],price:11799,monthly:165,emoji:"ðŸï¸",color:"Rally Red",featured:true,image:"",description:"The sweet spot of performance and value."},
+  {id:6,brand:"Can-Am",name:"Renegade 1000R X xc",year:2024,type:"atv",badge:"new",engine:"976cc V-Twin",hp:91,seats:1,specs:["91 HP","Solo","4x4","Sport Susp."],price:14999,monthly:209,emoji:"ðŸï¸",color:"Hyper Silver",featured:false,image:"",description:"Maximum sport ATV performance."},
+  {id:7,brand:"Can-Am",name:"Outlander 450",year:2024,type:"atv",badge:"new",engine:"450cc Single",hp:38,seats:1,specs:["38 HP","Solo","4x4"],price:8199,monthly:115,emoji:"ðŸï¸",color:"Forest Green",featured:false,image:"",description:"The perfect entry-level ATV."},
+  {id:8,brand:"Can-Am",name:"Maverick X3 RS Turbo",year:2022,type:"used",badge:"cpo",engine:"900cc Turbo",hp:172,seats:2,specs:["172 HP","2-Seat","4200 mi","CPO"],price:24500,monthly:null,emoji:"ðŸŽï¸",color:"Octane Blue",featured:false,image:"",description:"Certified pre-owned with full warranty."},
+];

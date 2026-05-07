@@ -1,0 +1,6 @@
+﻿export interface Rental { id:number;name:string;emoji:string;popular:boolean;tagline:string;description:string;halfDay:number;fullDay:number;weekend:number;deposit:number;features:string[];gear:string[];image:string; }
+export const rentals:Rental[] = [
+  {id:1,name:"ATV Solo",emoji:"ðŸï¸",popular:false,tagline:"For the solo explorer",description:"Nimble, fun, and beginner-friendly.",halfDay:149,fullDay:239,weekend:399,deposit:300,features:["Can-Am Outlander 450 or 570","Full safety briefing","Trail map","24/7 roadside support"],gear:["Helmet","Goggles","Gloves","Trail Map"],image:""},
+  {id:2,name:"Side-by-Side 2-Seat",emoji:"ðŸŽï¸",popular:true,tagline:"Most popular rental",description:"Bring a partner and share the thrill.",halfDay:229,fullDay:369,weekend:619,deposit:500,features:["Can-Am Maverick Trail or Sport","2 helmets and gear","GPS unit","Unlimited trail access"],gear:["2x Helmets","2x Goggles","GPS","Emergency Kit"],image:""},
+  {id:3,name:"Family 4-Seat SxS",emoji:"ðŸšœ",popular:false,tagline:"For the whole crew",description:"Take the whole family for all-day adventures.",halfDay:349,fullDay:559,weekend:939,deposit:750,features:["Can-Am Defender or Maverick MAX","4 helmets and gear","Family trail package","Cooler included"],gear:["4x Helmets","4x Goggles","Cooler","Photo Guide"],image:""},
+];
