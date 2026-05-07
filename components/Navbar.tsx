@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, Phone, Mail } from "lucide-react";
+import { Menu, X, MessageSquare, Mail } from "lucide-react";
 const LINKS = [{href:"/",label:"Home"},{href:"/inventory",label:"Inventory"},{href:"/rentals",label:"Rentals"},{href:"/testimonials",label:"Reviews"},{href:"/gallery",label:"Gallery"},{href:"/contact",label:"Contact"}];
 export default function Navbar() {
   const pathname = usePathname();
@@ -18,8 +18,12 @@ export default function Navbar() {
     <>
       <div className="hidden md:flex items-center justify-between bg-[#060709] border-b border-[#1e2333] px-[5%] py-2">
         <div className="flex items-center gap-6">
-          <a href="tel:5551234567" className="flex items-center gap-2 font-cond text-[11px] tracking-[0.1em] text-[#6b7694] hover:text-[#f97316] transition-colors"><Phone size={12} className="text-[#f97316]"/>(503) 913-4945</a>
-          <a href="mailto:canam.offroadhub@gmail.com" className="flex items-center gap-2 font-cond text-[11px] tracking-[0.1em] text-[#6b7694] hover:text-[#f97316] transition-colors"><Mail size={12} className="text-[#f97316]"/>canam.offroadhub@gmail.com</a>
+          <a href="https://wa.me/15039134945" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 font-cond text-[11px] tracking-[0.1em] text-[#6b7694] hover:text-[#f97316] transition-colors">
+            <MessageSquare size={12} className="text-[#f97316]"/>WhatsApp: (503) 913-4945
+          </a>
+          <a href="mailto:canam.offroadhub@gmail.com" className="flex items-center gap-2 font-cond text-[11px] tracking-[0.1em] text-[#6b7694] hover:text-[#f97316] transition-colors">
+            <Mail size={12} className="text-[#f97316]"/>canam.offroadhub@gmail.com
+          </a>
         </div>
         <div className="flex items-center gap-6 font-cond text-[11px] tracking-[0.08em] text-[#6b7694]">
           <span><span className="text-[#9ba4be]">Mon-Fri:</span> 9AM-6PM</span>
