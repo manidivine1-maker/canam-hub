@@ -11,9 +11,9 @@ export default function Footer() {
             <div className="font-cond text-[10px] tracking-[0.2em] uppercase text-[#f97316] mb-5">Premium ATVs - SxS - Off-Road Vehicles</div>
             <p className="text-[#6b7694] text-sm leading-relaxed mb-5 max-w-[220px]">Your authorized Can-Am dealership. Fueling adventures since 2016.</p>
             <div className="flex flex-col gap-2.5">
-              <a href="tel:5551234567" className="flex items-center gap-2 text-sm text-[#6b7694] hover:text-[#f97316] transition-colors"><Phone size={13} className="text-[#f97316]"/>(555) 123-4567</a>
-              <a href="mailto:info@canamoffroadhub.com" className="flex items-center gap-2 text-sm text-[#6b7694] hover:text-[#f97316] transition-colors"><Mail size={13} className="text-[#f97316]"/>info@canamoffroadhub.com</a>
-              <span className="flex items-center gap-2 text-sm text-[#6b7694]"><MapPin size={13} className="text-[#f97316] shrink-0"/>123 Off-Road Way, Centre, CM 12345</span>
+              <a href="tel:5551234567" className="flex items-center gap-2 text-sm text-[#6b7694] hover:text-[#f97316] transition-colors"><Phone size={13} className="text-[#f97316]"/>(503) 913-4945</a>
+              <a href="mailto:canam.offroadhub@gmail.com" className="flex items-center gap-2 text-sm text-[#6b7694] hover:text-[#f97316] transition-colors"><Mail size={13} className="text-[#f97316]"/>canam.offroadhub@gmail.com</a>
+              <span className="flex items-center gap-2 text-sm text-[#6b7694]"><MapPin size={13} className="text-[#f97316] shrink-0"/>United States</span>
             </div>
           </div>
           <div>
