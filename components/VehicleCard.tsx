@@ -41,7 +41,6 @@ export default function VehicleCard({ vehicle:v }:{ vehicle:Vehicle; index?:numb
               className="object-cover transition-opacity duration-300"
               sizes="(max-width:768px) 100vw,33vw"
             />
-            {/* Arrows — only show if more than 1 photo */}
             {images.length > 1 && (
               <>
                 <button
@@ -56,7 +55,6 @@ export default function VehicleCard({ vehicle:v }:{ vehicle:Vehicle; index?:numb
                 >
                   <ChevronRight size={16}/>
                 </button>
-                {/* Dots */}
                 <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-30 flex gap-1">
                   {images.map((_,i) => (
                     <button
@@ -66,7 +64,6 @@ export default function VehicleCard({ vehicle:v }:{ vehicle:Vehicle; index?:numb
                     />
                   ))}
                 </div>
-                {/* Counter */}
                 <div className="absolute top-2 right-2 z-30 bg-black/60 font-cond text-[10px] text-white px-2 py-0.5">
                   {current + 1}/{images.length}
                 </div>
@@ -77,10 +74,10 @@ export default function VehicleCard({ vehicle:v }:{ vehicle:Vehicle; index?:numb
           <>
             <span className="absolute font-cond font-bold text-[130px] text-white/[0.035] leading-none select-none pointer-events-none">{v.type.toUpperCase()}</span>
             <span className="text-[76px] relative z-10 transition-transform duration-300 group-hover:scale-110" role="img" aria-label={v.name}>{v.emoji}</span>
+            <span className="absolute bottom-2 left-2 font-cond text-[10px] uppercase tracking-wider text-[#6b7694] bg-black/50 px-2 py-0.5 z-20">{v.color}</span>
           </>
         )}
         {badge && <span className={`absolute top-0 left-0 font-cond text-[10px] font-bold tracking-[0.12em] uppercase text-white px-3 py-1.5 z-20 ${badge.bg}`}>{badge.label}</span>}
-        <span className="absolute bottom-2 left-2 font-cond text-[10px] uppercase tracking-wider text-[#6b7694] bg-black/50 px-2 py-0.5 z-20">{v.color}</span>
       </div>
 
       {/* Body */}
