@@ -77,7 +77,7 @@ export default function InventoryPage() {
               <div className="w-8 h-8 border-2 border-[#f97316]/30 border-t-[#f97316] rounded-full animate-spin"/>
             </div>
           ) : results.length > 0 ? (
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-10">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-8 gap-y-12">
               {results.map((v, i) => <VehicleCard key={v.id} vehicle={v} index={i}/>)}
             </div>
           ) : (

@@ -9,7 +9,7 @@ export default function VehicleCard({ vehicle: v }: { vehicle: Vehicle; index?: 
   return (
     <Link href={`/inventory/${v.id}`} className="group block">
       {/* Image */}
-      <div className="relative w-full aspect-square bg-[#12151e] overflow-hidden">
+      <div className="relative w-full aspect-[4/3] bg-[#12151e] overflow-hidden">
         {img ? (
           <Image
             src={img}
