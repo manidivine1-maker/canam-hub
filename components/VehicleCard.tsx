@@ -77,7 +77,7 @@ export default function VehicleCard({ vehicle:v }:{ vehicle:Vehicle; index?:numb
             <span className="absolute bottom-2 left-2 font-cond text-[10px] uppercase tracking-wider text-[#6b7694] bg-black/50 px-2 py-0.5 z-20">{v.color}</span>
           </>
         )}
-        {badge && <span className={`absolute top-0 left-0 font-cond text-[10px] font-bold tracking-[0.12em] uppercase text-white px-3 py-1.5 z-20 ${badge.bg}`}>{badge.label}</span>}      </div>
+         </div>
 
       {/* Body */}
       <div className="p-5">
