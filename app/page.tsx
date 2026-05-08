@@ -1,26 +1,44 @@
-﻿import Hero from "../components/Hero";
+﻿"use client";
+import { useEffect, useState } from "react";
+import Hero from "../components/Hero";
 import Ticker from "../components/Ticker";
 import CtaStrip from "../components/CtaStrip";
 import SectionHeader from "../components/SectionHeader";
 import VehicleCard from "../components/VehicleCard";
 import TestimonialCard from "../components/TestimonialCard";
-import { vehicles } from "../data/vehicles";
-import { testimonials } from "../data/testimonials";
+import { testimonials as staticTestimonials } from "../data/testimonials";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import type { Vehicle } from "../data/vehicles";
+import type { Testimonial } from "../data/testimonials";
+
 const WHY = [
-  {icon:"ðŸ†",title:"Authorized Dealer",desc:"Factory-certified technicians and genuine OEM parts on every job."},
-  {icon:"ðŸ’Ž",title:"White-Glove Service",desc:"No pressure, no rush. Every customer gets our complete attention."},
-  {icon:"ðŸ’°",title:"Flexible Financing",desc:"Pre-approval in minutes with 8+ lending partners. All credit welcome."},
-  {icon:"ðŸ—“ï¸",title:"Try Before You Buy",desc:"Rent any machine before you commit. Fee credited toward purchase."},
-  {icon:"ðŸ”§",title:"Expert Service",desc:"State-of-the-art workshop with fast turnarounds and honest pricing."},
-  {icon:"ðŸ¤",title:"Trade-Ins Welcome",desc:"Fair-value appraisals accepted toward any new or pre-owned vehicle."},
-  {icon:"ðŸšš",title:"Delivery Available",desc:"White-glove delivery with full walk-through anywhere in the region."},
-  {icon:"ðŸ“¦",title:"Parts & Accessories",desc:"Genuine Can-Am parts and accessories in stock. Express orders too."},
+  {icon:"🏆",title:"Authorized Dealer",desc:"Factory-certified technicians and genuine OEM parts on every job."},
+  {icon:"💎",title:"White-Glove Service",desc:"No pressure, no rush. Every customer gets our complete attention."},
+  {icon:"💰",title:"Flexible Financing",desc:"Pre-approval in minutes with 8+ lending partners. All credit welcome."},
+  {icon:"🗓️",title:"Try Before You Buy",desc:"Rent any machine before you commit. Fee credited toward purchase."},
+  {icon:"🔧",title:"Expert Service",desc:"State-of-the-art workshop with fast turnarounds and honest pricing."},
+  {icon:"🤝",title:"Trade-Ins Welcome",desc:"Fair-value appraisals accepted toward any new or pre-owned vehicle."},
+  {icon:"🚚",title:"Delivery Available",desc:"White-glove delivery with full walk-through anywhere in the region."},
+  {icon:"📦",title:"Parts & Accessories",desc:"Genuine Can-Am parts and accessories in stock. Express orders too."},
 ];
+
 export default function HomePage() {
-  const featured = vehicles.filter(v => v.featured);
-  const topThree = testimonials.slice(0,3);
+  const [vehicles, setVehicles] = useState<Vehicle[]>([]);
+  const [reviews, setReviews] = useState<Testimonial[]>(staticTestimonials);
+
+  useEffect(() => {
+    fetch("/api/vehicles").then(r=>r.json()).then(data=>{
+      setVehicles(data);
+    }).catch(()=>{});
+    fetch("/api/testimonials").then(r=>r.json()).then(data=>{
+      if(data && data.length > 0) setReviews(data);
+    }).catch(()=>{});
+  }, []);
+
+  const featured = vehicles.filter(v => v.featured).slice(0,3);
+  const topThree = reviews.slice(0,3);
+
   return (
     <>
       <Hero />
@@ -31,9 +49,17 @@ export default function HomePage() {
             <SectionHeader eyebrow="Featured Vehicles" title="HOT OFF THE LOT" subtitle="Hand-selected machines ready for delivery. New arrivals weekly." />
             <Link href="/inventory" className="btn-outline shrink-0 whitespace-nowrap self-start lg:self-auto">View All Inventory <ArrowRight size={14}/></Link>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {featured.slice(0,3).map((v,i) => <VehicleCard key={v.id} vehicle={v} index={i}/>)}
-          </div>
+          {featured.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+              {featured.map((v,i) => <VehicleCard key={v.id} vehicle={v} index={i}/>)}
+            </div>
+          ) : (
+            <div className="text-center py-16 bg-[#0c0e14] border border-[#1e2333]">
+              <p className="text-6xl mb-4">🏍️</p>
+              <p className="text-[#9ba4be] font-cond uppercase tracking-wide">Add featured vehicles in the admin panel</p>
+              <Link href="/admin" className="btn-gold mt-4 inline-flex">Go to Admin</Link>
+            </div>
+          )}
         </div>
       </section>
       <section className="section-pad bg-[#0c0e14]">
